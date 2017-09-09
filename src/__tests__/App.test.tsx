@@ -9,10 +9,5 @@ describe('<App />', () => {
         const wrapper = shallow(<App />);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
-
-    it('Renders a personalised greeting', () => {
-        const wrapper = shallow(<App name="Dan" />);
-        expect(toJson(wrapper)).toMatchSnapshot();
-    });
 });
 

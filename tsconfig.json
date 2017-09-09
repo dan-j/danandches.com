@@ -8,9 +8,8 @@
         "strict": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
-        "baseUrl": "src",
-        "allowJs": true,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "moduleResolution": "node"
     },
     "exclude": [
         "node_modules"

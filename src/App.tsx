@@ -1,19 +1,21 @@
 import React from 'react';
-import CSSModules from 'react-css-modules';
-const styles = require('./_App.scss');
+import { BrowserRouter } from 'react-router-dom';
+import { Route } from 'react-router';
+import Header from './components/common/Header';
+import Home from './components/Home';
 
-interface AppProps extends CSSModules.InjectedCSSModuleProps {
-    name?: String;
+export default class App extends React.Component<{}, {}> {
+
+    render() {
+        return (
+            <BrowserRouter>
+                <div>
+                    <Header />
+                    <Route path="/">
+                        <Home />
+                    </Route>
+                </div>
+            </BrowserRouter>
+        );
+    }
 }
-
-const App: React.StatelessComponent<AppProps> = ({ name }) => (
-    <div>
-        <p className={styles.greeting}>Hello, {name}</p>
-    </div>
-);
-
-App.defaultProps = {
-    name: 'World',
-};
-
-export default App;

@@ -11,6 +11,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const entry: string[] = [
+    'babel-polyfill',
     path.resolve('src/index.tsx'),
 ];
 
@@ -71,8 +72,8 @@ const config: Webpack.Configuration = {
                 'awesome-typescript-loader',
             ],
         }, {
-            test: /\.scss$/,
-            exclude: /node_modules/,
+            test: /\.s?css$/,
+            // exclude: /node_modules/,
             use: [{
                 loader: 'style-loader',
                 options: {
@@ -81,7 +82,7 @@ const config: Webpack.Configuration = {
             }, {
                 loader: 'css-loader',
                 options: {
-                    modules: true,
+                    // modules: true,
                     importLoaders: 1,
                     localIdentName: 'dac_[name]__[local]',
                 },
