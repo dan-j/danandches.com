@@ -1,6 +1,7 @@
 import React from 'react';
 import { IImageGroup } from '../services/api';
 import ImageGroup from './ImageGroup';
+import Container from './common/Container';
 
 interface HomeProps {
     imageGroups: IImageGroup[];
@@ -17,16 +18,17 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     };
 
     render() {
+        const expandedState = this.state.expandedIndex;
         return (
-            <div id="home">
+            <Container id="home">
                 {this.props.imageGroups.map((g: IImageGroup, index: number) => (
                     <ImageGroup
                         key={g.id}
                         group={g}
-                        expanded={this.state.expandedIndex === index}
+                        expanded={expandedState === index || true}
                     />
                 ))}
-            </div>
+            </Container>
         );
     }
 }

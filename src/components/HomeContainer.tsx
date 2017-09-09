@@ -22,12 +22,12 @@ export default class HomeContainer extends React.Component<HomeProps, HomeState>
     async componentDidMount() {
         let waited = false;
 
-        setTimeout(() => waited = true, 1500);
+        setTimeout(() => waited = true, 2000);
 
         const imageGroups = await getImageGroups();
 
         while (!waited) {
-            await new Promise((resolve => setTimeout(resolve, 100)));
+            await new Promise((resolve => setTimeout(resolve, 500)));
         }
 
         this.setState({

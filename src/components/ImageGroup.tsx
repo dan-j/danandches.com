@@ -1,5 +1,6 @@
 import React from 'react';
 import { IImage, IImageGroup } from '../services/api';
+import Img from './common/Img';
 
 interface ImageGroupProps {
     group: IImageGroup;
@@ -9,13 +10,18 @@ interface ImageGroupProps {
 export default class ImageGroup extends React.Component<ImageGroupProps, {}> {
 
     render() {
-        const group = this.props.group;
+        const { group, expanded } = this.props;
         return (
             <section>
                 <h4>{group.title}</h4>
-                <pre>{!this.props.expanded && 'not '} expanded</pre>
-                <p>Total images: {group.images.length}</p>
-                <p>{group.images.map((i: IImage) => i.title).join(', ')}</p>
+                <p>{group.images.length} Images</p>
+                {expanded && (
+                    <div>
+                        {group.images.map((i: IImage) => (
+                            <Img key={i.id} src={`${i.url}?h=200`} />
+                        ))}
+                    </div>
+                )}
             </section>
         );
     }

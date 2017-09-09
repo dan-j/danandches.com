@@ -43,6 +43,7 @@ export interface IImageGroup {
 }
 
 export interface IImage {
+    id: string;
     title: string;
     url: string;
     details: {
@@ -57,6 +58,7 @@ export interface IImage {
 export async function getImageGroups(): Promise<IImageGroup[]> {
     const entries = await client.getEntries({
         content_type: 'imageGroup',
+        order: 'fields.order',
     });
 
     type IdToEntry = { [key: string]: Entry<ImageEntryFields> };
@@ -88,6 +90,7 @@ export async function getImageGroups(): Promise<IImageGroup[]> {
             const entry = imageEntries[entryId];
             const asset = imageAssets[entry.fields.image.sys.id];
             return {
+                id: asset.sys.id,
                 title: entry.fields.title,
                 url: asset.fields.file.url,
                 details: asset.fields.file.details,

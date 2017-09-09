@@ -6,9 +6,12 @@ const baseLineHeight = 32;
 const pulseDuration = 750;
 
 const pulse = keyframes`
-  50% { 
-    background: ${beige};
+  33% { 
+    background: ${blue};
   } 
+  80% {
+    background: ${beige};
+  }
 `;
 
 const Loading = styled.div`
@@ -16,8 +19,8 @@ const Loading = styled.div`
   position: relative;
   width: ${baseLineHeight / 4}px;
   height: ${baseLineHeight}px;
-  background: ${blue};
-  animation: ${pulse} ${pulseDuration}ms infinite;
+  background: ${beige};
+  animation: ${pulse} ${pulseDuration}ms infinite ease-in;
   animation-delay: ${pulseDuration / 3}ms;
   
   &:before, &:after {
@@ -26,17 +29,17 @@ const Loading = styled.div`
     display: block;
     height: ${baseLineHeight / 1.75}px;
     width: ${baseLineHeight / 4}px;
-    background: ${blue};
+    background: ${beige};
     top: 50%;
     transform: translateY(-50%);
-    animation: ${pulse} ${pulseDuration}ms infinite;
+    animation: ${pulse} ${pulseDuration}ms infinite ease-in;
   }
   &:before {
     left: ${-baseLineHeight / 2}px;
   }
   &:after {
     left: ${baseLineHeight / 2}px;
-    animation-delay: ${pulseDuration / 2}ms;
+    animation-delay: ${pulseDuration / 1.5}ms;
   }
 `;
 
