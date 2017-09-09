@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Route } from 'react-router';
-import Header from './components/common/Header';
-import Home from './components/Home';
+import Header from './components/Header';
+import HomeContainer from './components/HomeContainer';
 
 export default class App extends React.Component<{}, {}> {
 
@@ -12,7 +12,7 @@ export default class App extends React.Component<{}, {}> {
                 <div>
                     <Header />
                     <Route path="/">
-                        <Home />
+                        <HomeContainer />
                     </Route>
                 </div>
             </BrowserRouter>

@@ -10,6 +10,8 @@ const path = require('path');
 const CompressionPlugin = require('compression-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
+require('dotenv').config();
+
 const entry: string[] = [
     'babel-polyfill',
     path.resolve('src/index.tsx'),
@@ -19,7 +21,11 @@ const plugins: Webpack.Plugin[] = [
     new CopyWebpackPlugin([{
         from: path.resolve('src/index.html'),
     }]),
-    new webpack.EnvironmentPlugin(['NODE_ENV']),
+    new webpack.EnvironmentPlugin([
+        'NODE_ENV',
+        'CONTENTFUL_SPACE_ID',
+        'CONTENTFUL_ACCESS_TOKEN',
+    ]),
     new CompressionPlugin({
         asset: '[path].gz[query]',
         algorithm: 'gzip',
