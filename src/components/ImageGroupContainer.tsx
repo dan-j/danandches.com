@@ -2,10 +2,10 @@ import React from 'react';
 import { IImageGroup } from '../services/api';
 import { calculate, ImageDimensions } from '../util/image-layout';
 import ImageGroup from './ImageGroup';
+import styled from 'styled-components';
 
 interface ImageGroupProps {
     group: IImageGroup;
-    expanded: boolean;
     containerWidth: number;
     preferredHeight: number;
 }
@@ -13,6 +13,14 @@ interface ImageGroupProps {
 interface ImageGroupState {
     imageDimensions: ImageDimensions[][];
 }
+
+const SubText = styled.span`
+    font-size: 0.8em;
+    font-style: italic;
+    font-weight: 100;
+    padding-left: 1em;
+    float: right;
+`;
 
 export default class ImageGroupContainer extends React.Component<ImageGroupProps, ImageGroupState> {
 
@@ -34,19 +42,15 @@ export default class ImageGroupContainer extends React.Component<ImageGroupProps
     }
 
     render() {
-        const { group, expanded } = this.props;
+        const { group } = this.props;
         return (
             <section>
-                <h4>{group.title}</h4>
-                <p>{group.images.length} Images</p>
-                <p>Width: {this.props.containerWidth}</p>
-                {expanded && (
-                    <ImageGroup
-                        images={group.images}
-                        dimensions={this.state.imageDimensions}
-                        maxHeight={this.props.preferredHeight}
-                    />
-                )}
+                <h4>{group.title} <SubText>{group.images.length} Images</SubText></h4>
+                <ImageGroup
+                    images={group.images}
+                    dimensions={this.state.imageDimensions}
+                    maxHeight={this.props.preferredHeight}
+                />
             </section>
         );
     }

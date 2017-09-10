@@ -8,43 +8,29 @@ interface HomeProps {
     imageGroups: IImageGroup[];
 }
 
-interface HomeState {
-    expandedIndex: number;
-}
+const Home: React.SFC<HomeProps> = ({ imageGroups }) => (
+    <Measure bounds={true}>
+        {({ measureRef, contentRect }) => {
+            let content;
+            if (contentRect.bounds && contentRect.bounds.width) {
+                const width = contentRect.bounds.width;
+                const preferredHeight = (width <= 576 ? 150 : 200);
+                content = imageGroups.map((g: IImageGroup, index: number) => (
+                    <ImageGroupContainer
+                        key={g.id}
+                        group={g}
+                        containerWidth={width}
+                        preferredHeight={preferredHeight}
+                    />
+                ))
+            }
+            return (
+                <Container id="home" innerRef={measureRef}>
+                    {content}
+                </Container>
+            );
+        }}
+    </Measure>
+);
 
-export default class Home extends React.Component<HomeProps, HomeState> {
-
-    state: HomeState = {
-        expandedIndex: this.props.imageGroups.length > 0 ? 0 : -1,
-    };
-
-    render() {
-        const { expandedIndex } = this.state;
-        return (
-            <Measure bounds={true}>
-                {({ measureRef, contentRect }) => {
-                    let content;
-                    if (contentRect.bounds && contentRect.bounds.width) {
-                        const width = contentRect.bounds.width;
-                        content = this.props.imageGroups.map(
-                            (g: IImageGroup, index: number) => (
-                                <ImageGroupContainer
-                                    key={g.id}
-                                    group={g}
-                                    expanded={expandedIndex === index || true}
-                                    containerWidth={width}
-                                    preferredHeight={width <= 576 ? 150 : 200}
-                                />
-                            ),
-                        )
-                    }
-                    return (
-                        <Container id="home" innerRef={measureRef}>
-                            {content}
-                        </Container>
-                    );
-                }}
-            </Measure>
-        );
-    }
-}
+export default Home;
