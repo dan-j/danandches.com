@@ -104,6 +104,7 @@ const config: Webpack.Configuration = {
     devServer: {
         port: 8080,
         historyApiFallback: true,
+        host: '0.0.0.0',
         hotOnly: true,
         contentBase: path.resolve('dist/'),
     },

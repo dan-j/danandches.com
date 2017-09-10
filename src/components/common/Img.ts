@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 
 export default styled.img`
-    margin: 0 4px;
+    box-sizing: border-box;
+    max-height: 150px;
+    
+    @media screen and (min-width: 576px) {
+        max-height: 200px;
+    }
 `;

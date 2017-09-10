@@ -1,28 +1,50 @@
 import React from 'react';
-import { IImage, IImageGroup } from '../services/api';
+import { IImage } from '../services/api';
+import { ImageDimensions } from '../util/image-layout';
 import Img from './common/Img';
+import styled from 'styled-components';
 
 interface ImageGroupProps {
-    group: IImageGroup;
-    expanded: boolean;
+    images: IImage[];
+    dimensions: ImageDimensions[][];
+    maxHeight: number
 }
 
-export default class ImageGroup extends React.Component<ImageGroupProps, {}> {
-
-    render() {
-        const { group, expanded } = this.props;
-        return (
-            <section>
-                <h4>{group.title}</h4>
-                <p>{group.images.length} Images</p>
-                {expanded && (
-                    <div>
-                        {group.images.map((i: IImage) => (
-                            <Img key={i.id} src={`${i.url}?h=200`} />
-                        ))}
-                    </div>
-                )}
-            </section>
-        );
+const ImageWrapper = styled.div`
+    display: inline-block;
+    width: 100%;
+    
+    ${Img} {
+        padding-right: 6px;
     }
-}
+    
+    ${Img}:last-child {
+        padding-right: 0;
+    }
+`;
+
+const ImageGroup: React.StatelessComponent<ImageGroupProps> = ({ images, dimensions, maxHeight }) => {
+    let imageIndex = 0;
+    return (
+        <div>
+            {dimensions.map((rowDimensions: ImageDimensions[], index: number) => (
+                <ImageWrapper key={index}>
+                    {rowDimensions.map((dim: ImageDimensions) => {
+                        const i = images[imageIndex];
+                        imageIndex += 1;
+                        return (
+                            <Img
+                                key={i.id}
+                                src={`${i.url}?h=${maxHeight}`}
+                                height={dim.height}
+                                {...(dim.height > maxHeight ? {} : { width: dim.width })}
+                            />
+                        );
+                    })}
+                </ImageWrapper>
+            ))}
+        </div>
+    );
+};
+
+export default ImageGroup;
