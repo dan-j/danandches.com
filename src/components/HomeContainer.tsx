@@ -1,5 +1,5 @@
 import React from 'react';
-import Loading from './common/Loading';
+import Loading from './styled/Loading';
 import { getImageGroups, IImageGroup } from '../services/api';
 import Home from './Home';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { IImage } from '../services/api';
 import { ImageDimensions } from '../util/image-layout';
-import Img from './common/Img';
 import styled from 'styled-components';
+import Image from './Image';
 
 interface ImageGroupProps {
     images: IImage[];
@@ -10,17 +10,9 @@ interface ImageGroupProps {
     maxHeight: number
 }
 
-const ImageWrapper = styled.div`
+const ImageRowWrapper = styled.div`
     display: inline-block;
     width: 100%;
-    
-    ${Img} {
-        padding-right: 6px;
-    }
-    
-    ${Img}:last-child {
-        padding-right: 0;
-    }
 `;
 
 const ImageGroup: React.StatelessComponent<ImageGroupProps> = ({ images, dimensions, maxHeight }) => {
@@ -28,20 +20,21 @@ const ImageGroup: React.StatelessComponent<ImageGroupProps> = ({ images, dimensi
     return (
         <div>
             {dimensions.map((rowDimensions: ImageDimensions[], index: number) => (
-                <ImageWrapper key={index}>
+                <ImageRowWrapper key={index}>
                     {rowDimensions.map((dim: ImageDimensions) => {
                         const i = images[imageIndex];
                         imageIndex += 1;
                         return (
-                            <Img
+                            <Image
                                 key={i.id}
-                                src={`${i.url}?h=${maxHeight}`}
+                                src={i.url}
+                                fetchHeight={maxHeight}
                                 height={dim.height}
                                 {...(dim.height > maxHeight ? {} : { width: dim.width })}
                             />
                         );
                     })}
-                </ImageWrapper>
+                </ImageRowWrapper>
             ))}
         </div>
     );

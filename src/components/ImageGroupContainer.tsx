@@ -3,6 +3,7 @@ import { IImageGroup } from '../services/api';
 import { calculate, ImageDimensions } from '../util/image-layout';
 import ImageGroup from './ImageGroup';
 import styled from 'styled-components';
+import Loading from './styled/Loading';
 
 interface ImageGroupProps {
     group: IImageGroup;
@@ -11,7 +12,7 @@ interface ImageGroupProps {
 }
 
 interface ImageGroupState {
-    imageDimensions: ImageDimensions[][];
+    imageDimensions?: ImageDimensions[][];
 }
 
 const SubText = styled.span`
@@ -24,14 +25,18 @@ const SubText = styled.span`
 
 export default class ImageGroupContainer extends React.Component<ImageGroupProps, ImageGroupState> {
 
+    state: ImageGroupState = {};
+
     getImageDimensions = (containerWidth: number) => {
         const { group: { images }, preferredHeight } = this.props;
         return calculate(images, containerWidth, preferredHeight);
     };
 
-    state: ImageGroupState = {
-        imageDimensions: this.getImageDimensions(this.props.containerWidth),
-    };
+    componentDidMount() {
+        this.setState({
+            imageDimensions: this.getImageDimensions(this.props.containerWidth),
+        });
+    }
 
     componentWillReceiveProps(nextProps: ImageGroupProps) {
         if (this.props.containerWidth !== nextProps.containerWidth) {
@@ -43,14 +48,19 @@ export default class ImageGroupContainer extends React.Component<ImageGroupProps
 
     render() {
         const { group } = this.props;
+
+        const content = this.state.imageDimensions ? (
+            <ImageGroup
+                images={group.images}
+                dimensions={this.state.imageDimensions}
+                maxHeight={this.props.preferredHeight}
+            />
+        ) : <Loading />;
+
         return (
             <section>
                 <h4>{group.title} <SubText>{group.images.length} Images</SubText></h4>
-                <ImageGroup
-                    images={group.images}
-                    dimensions={this.state.imageDimensions}
-                    maxHeight={this.props.preferredHeight}
-                />
+                {content}
             </section>
         );
     }

@@ -14,6 +14,8 @@ export function calculate(images: IImage[],
     const targetAspectRatio = containerWidth / preferredHeight;
     const dimensions: ImageDimensions[][] = [];
 
+    const marginWidth = 6;
+
     while (processed < images.length) {
         const rowDimensions: ImageDimensions[] = [];
         const rowIndexes: number[] = [];
@@ -26,10 +28,13 @@ export function calculate(images: IImage[],
             processed += 1;
         }
 
+        const totalMarginWidth = marginWidth * (rowIndexes.length - 1);
+        const requiredWidth = containerWidth - totalMarginWidth;
+
         // this will be a shrunk height to fit the items in this row, unless this contains the
         // final image (processed === this.images.length), in which case it could be shrunk
         // or grown
-        const scaledHeight = preferredHeight * targetAspectRatio / cumulativeAspectRatio;
+        const scaledHeight = requiredWidth / cumulativeAspectRatio;
 
         rowDimensions.push(...rowIndexes.map((idx: number) => ({
             width: aspectRatios[idx] * scaledHeight,

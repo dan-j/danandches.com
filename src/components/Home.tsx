@@ -2,7 +2,8 @@ import React from 'react';
 import Measure from 'react-measure';
 import { IImageGroup } from '../services/api';
 import ImageGroupContainer from './ImageGroupContainer';
-import Container from './common/Container';
+import Container from './styled/Container';
+import Loading from './styled/Loading';
 
 interface HomeProps {
     imageGroups: IImageGroup[];
@@ -14,15 +15,16 @@ const Home: React.SFC<HomeProps> = ({ imageGroups }) => (
             let content;
             if (contentRect.bounds && contentRect.bounds.width) {
                 const width = contentRect.bounds.width;
-                const preferredHeight = (width <= 576 ? 150 : 200);
                 content = imageGroups.map((g: IImageGroup, index: number) => (
                     <ImageGroupContainer
                         key={g.id}
                         group={g}
                         containerWidth={width}
-                        preferredHeight={preferredHeight}
+                        preferredHeight={width <= 576 ? 150 : 200}
                     />
                 ))
+            } else {
+                content = <Loading />;
             }
             return (
                 <Container id="home" innerRef={measureRef}>
