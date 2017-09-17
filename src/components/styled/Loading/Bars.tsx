@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { beige, blue } from '../../styles/colors';
+import { beige, blue } from '../../../styles/colors';
 
 const baseLineHeight = 32;
 const pulseDuration = 750;

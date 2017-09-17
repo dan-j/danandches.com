@@ -88,10 +88,13 @@ const config: Webpack.Configuration = {
             }, {
                 loader: 'css-loader',
                 options: {
-                    // modules: true,
-                    importLoaders: 1,
-                    localIdentName: 'dac_[name]__[local]',
+                    importLoaders: 2,
                 },
+            }, {
+                loader: 'postcss-loader',
+                options: {
+                    sourceMap: true,
+                }
             }, {
                 loader: 'sass-loader',
                 options: {
@@ -105,6 +108,7 @@ const config: Webpack.Configuration = {
         port: 8080,
         historyApiFallback: true,
         host: '0.0.0.0',
+        disableHostCheck: true,
         hotOnly: true,
         contentBase: path.resolve('dist/'),
     },

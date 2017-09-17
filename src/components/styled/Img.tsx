@@ -1,5 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import React from 'react';
+import { fade } from './transitions';
 
 export const Img = styled.img`
     box-sizing: border-box;
@@ -7,13 +8,17 @@ export const Img = styled.img`
     
     vertical-align: bottom;
     
-    display: ${props => props.hidden ? 'none' : 'inherit'};
-    
     @media screen and (min-width: 576px) {
         max-height: 200px;
     }
+    
+    ${props => props.hidden ? css`
+        display: none;
+    ` : css`
+        animation: ${fade} 200ms ease-in;
+    `}    
 `;
 
 export const BlurredImg = Img.extend`
-    filter: blur(25px);
+    filter: blur(15px);
 `;

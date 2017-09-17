@@ -20,7 +20,7 @@ const StyledHeader = styled.header`
 const Header: React.StatelessComponent<{}> = () => (
     <StyledHeader>
         <h3>Dan {'&'} Ches'</h3>
-        <h1>Wedding Photographs</h1>
+        <h1>Wedding Day</h1>
     </StyledHeader>
 );
 

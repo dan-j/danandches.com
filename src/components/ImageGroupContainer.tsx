@@ -3,7 +3,7 @@ import { IImageGroup } from '../services/api';
 import { calculate, ImageDimensions } from '../util/image-layout';
 import ImageGroup from './ImageGroup';
 import styled from 'styled-components';
-import Loading from './styled/Loading';
+import Loading from './styled/Loading/Bars';
 
 interface ImageGroupProps {
     group: IImageGroup;

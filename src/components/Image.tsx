@@ -1,7 +1,11 @@
 import React from 'react';
 import { stringify } from 'querystring';
+import CSSTransition from 'react-transition-group/CSSTransition';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
 import { BlurredImg, Img } from './styled/Img';
 import styled from 'styled-components';
+import Pulse from './styled/Loading/Pulse';
+import Overlay from './styled/Overlay';
 
 interface ImageProps {
     src: string;
@@ -13,14 +17,18 @@ interface ImageProps {
 
 interface ImageState {
     loaded: boolean;
+    thumbnailLoaded: boolean;
 }
 
-const Picture = styled.picture``;
+const Picture = styled.picture`
+    display: block;
+`;
 
 const ImageContainer = styled.div`
     display: inline-block;
     overflow: hidden;
     margin-right: 6px;
+    position: relative;
     
     &:last-child {
         margin-right: 0;
@@ -29,18 +37,19 @@ const ImageContainer = styled.div`
 
 const BlurredPicture = Picture.extend`
     overflow: hidden;
+    position: relative;
 `;
 
 export default class Image extends React.Component<ImageProps, {}> {
 
     state: ImageState = {
         loaded: false,
+        thumbnailLoaded: false,
     };
 
-    onLoad = () => {
-        // loglevel.info(`loaded: ${this.props.src}`);
-        this.setState({ loaded: true });
-    };
+    onLoad = () => this.setState({ loaded: true });
+
+    onThumbnailLoad = () => this.setState({ thumbnailLoaded: true });
 
     renderThumbnail(src: string, thumbHeight: number, height: number, width?: number) {
         const query = {
@@ -66,8 +75,11 @@ export default class Image extends React.Component<ImageProps, {}> {
                 <source srcSet={normalSrc} type="image/jpeg" />
                 <BlurredImg
                     {...imgProps}
-                    onLoad={this.onLoad}
+                    onLoad={this.onThumbnailLoad}
                 />
+                <Overlay shouldFill={!this.state.thumbnailLoaded}>
+                    <Pulse />
+                </Overlay>
             </BlurredPicture>
         );
     }
@@ -120,8 +132,14 @@ export default class Image extends React.Component<ImageProps, {}> {
         const { src, fetchHeight, height, width } = this.props;
         return (
             <ImageContainer>
-                {!this.state.loaded && this.renderThumbnail(src, 20, height, width)}
-                {this.renderFullImage(src, fetchHeight, height, width)}
+                <TransitionGroup>
+                    {!this.state.loaded && (
+                        <CSSTransition classNames="fade" timeout={200}>
+                            {this.renderThumbnail(src, 20, height, width)}
+                        </CSSTransition>
+                    )}
+                    {this.renderFullImage(src, fetchHeight, height, width)}
+                </TransitionGroup>
             </ImageContainer>
         );
     }

@@ -1,0 +1,21 @@
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-enter, .fade-exit {
+  position: absolute;
+}
+
+.fade-enter-active {
+  animation: fade 200ms ease-in;
+}
+
+.fade-exit-active {
+  animation: fade 200ms ease-out reverse;
+}
