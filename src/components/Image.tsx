@@ -8,11 +8,14 @@ import Pulse from './styled/Loading/Pulse';
 import Overlay from './styled/Overlay';
 
 interface ImageProps {
+
     src: string;
     preSrc?: string;
     fetchHeight: number;
     height: number;
     width?: number;
+    index: number;
+    onImageSelected(selectedIndex: number): void;
 }
 
 interface ImageState {
@@ -33,6 +36,10 @@ const ImageContainer = styled.div`
     &:last-child {
         margin-right: 0;
     }
+    
+    &:hover {
+        cursor: pointer;
+    }
 `;
 
 const BlurredPicture = Picture.extend`
@@ -50,6 +57,8 @@ export default class Image extends React.Component<ImageProps, {}> {
     onLoad = () => this.setState({ loaded: true });
 
     onThumbnailLoad = () => this.setState({ thumbnailLoaded: true });
+
+    onImageSelected = () => this.props.onImageSelected(this.props.index);
 
     renderThumbnail(src: string, thumbHeight: number, height: number, width?: number) {
         const query = {
@@ -131,7 +140,7 @@ export default class Image extends React.Component<ImageProps, {}> {
     render() {
         const { src, fetchHeight, height, width } = this.props;
         return (
-            <ImageContainer>
+            <ImageContainer onClick={this.onImageSelected}>
                 <TransitionGroup>
                     {!this.state.loaded && (
                         <CSSTransition classNames="fade" timeout={200}>

@@ -9,6 +9,7 @@ interface ImageGroupProps {
     group: IImageGroup;
     containerWidth: number;
     preferredHeight: number;
+    onImageSelected(selectedIndex: number): void;
 }
 
 interface ImageGroupState {
@@ -54,6 +55,7 @@ export default class ImageGroupContainer extends React.Component<ImageGroupProps
                 images={group.images}
                 dimensions={this.state.imageDimensions}
                 maxHeight={this.props.preferredHeight}
+                onImageSelected={this.props.onImageSelected}
             />
         ) : <Loading />;
 

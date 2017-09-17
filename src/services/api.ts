@@ -43,6 +43,7 @@ export interface IImageGroup {
 }
 
 export interface IImage {
+    index: number;
     id: string;
     title: string;
     url: string;
@@ -82,6 +83,7 @@ export async function getImageGroups(): Promise<IImageGroup[]> {
         {},
     );
 
+    let index = 0;
     return entries.items.map((entry: Entry<ImageGroupEntryFields>) => ({
         id: entry.sys.id,
         title: entry.fields.title,
@@ -90,6 +92,7 @@ export async function getImageGroups(): Promise<IImageGroup[]> {
             const entry = imageEntries[entryId];
             const asset = imageAssets[entry.fields.image.sys.id];
             return {
+                index: index++,
                 id: asset.sys.id,
                 title: entry.fields.title,
                 url: asset.fields.file.url,
