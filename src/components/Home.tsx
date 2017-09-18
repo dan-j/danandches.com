@@ -22,7 +22,8 @@ function extractImageUrls(imageGroups: IImageGroup[]) {
     const urls: SrcObj[] = [];
 
     imageGroups.forEach(
-        (g: IImageGroup) => g.images.forEach((i: IImage) => urls.push({ src: `${i.url}?h=600` })));
+        (g: IImageGroup) => g.images.forEach((i: IImage) =>
+            urls.push({ src: `${i.url}?h=600&fl=progressive` })));
 
     return urls;
 }
@@ -44,12 +45,17 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 
     onLightBoxClose = () => this.setState({ lightboxOpen: false });
 
+    throwError = () => {
+        throw new Error('hello error!');
+    };
+
     render() {
         const { imageGroups } = this.props;
         const { lightboxOpen, selectedIndex } = this.state;
 
         return (
             <div>
+                <button onClick={this.throwError}>Press me!</button>
                 <LightBox
                     images={extractImageUrls(imageGroups)}
                     isOpen={lightboxOpen}
