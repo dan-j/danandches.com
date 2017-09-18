@@ -1,9 +1,9 @@
 {
-    "name": "typescript-react-starter",
-    "version": "0.0.1",
-    "description": "Starter-kit for React and TypeScript",
+    "name": "danandches.com",
+    "version": "0.1.0",
+    "description": "Application for sharing wedding photographs hosted by Contentful",
     "main": "index.js",
-    "author": "dan-j <jonesd9@me.com>",
+    "author": "dan-j <5727701+dan-j@users.noreply.github.com>",
     "license": "MIT",
     "engines": {
         "node": "8.5.0",
