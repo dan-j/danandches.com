@@ -25,6 +25,7 @@ const plugins: Webpack.Plugin[] = [
         'NODE_ENV',
         'CONTENTFUL_SPACE_ID',
         'CONTENTFUL_ACCESS_TOKEN',
+        'RAVEN_URL',
     ]),
     new CompressionPlugin({
         asset: '[path].gz[query]',
@@ -33,7 +34,6 @@ const plugins: Webpack.Plugin[] = [
         threshold: 10240,
         minRatio: 0.8,
     }),
-    new BundleAnalyzerPlugin(),
 ];
 
 if (process.env.NODE_ENV === 'development') {
@@ -42,6 +42,8 @@ if (process.env.NODE_ENV === 'development') {
     plugins.unshift(...[
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
+
+        new BundleAnalyzerPlugin(),
     ]);
 } else if (process.env.NODE_ENV === 'production') {
     plugins.unshift(...[
