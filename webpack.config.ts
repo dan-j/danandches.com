@@ -9,6 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const CompressionPlugin = require('compression-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 require('dotenv').config();
 
@@ -17,9 +18,16 @@ const entry: string[] = [
     path.resolve('src/index.tsx'),
 ];
 
+const indexHtmlPath = path.resolve('src/index.html');
+
 const plugins: Webpack.Plugin[] = [
+    new HtmlWebpackPlugin({
+        template: indexHtmlPath,
+        filename: path.resolve('dist/index.html'),
+        inject: 'body',
+    }),
     new CopyWebpackPlugin([{
-        from: path.resolve('src/index.html'),
+        from: indexHtmlPath,
     }]),
     new webpack.EnvironmentPlugin([
         'NODE_ENV',
@@ -36,6 +44,8 @@ const plugins: Webpack.Plugin[] = [
     }),
 ];
 
+let outputFilename = 'bundle.js';
+
 if (process.env.NODE_ENV === 'development') {
     entry.unshift('react-hot-loader/patch');
 
@@ -46,6 +56,7 @@ if (process.env.NODE_ENV === 'development') {
         new BundleAnalyzerPlugin(),
     ]);
 } else if (process.env.NODE_ENV === 'production') {
+    outputFilename = 'bundle-[chunkhash].js';
     plugins.unshift(...[
         new webpack.LoaderOptionsPlugin({
             minimize: true,
@@ -59,7 +70,7 @@ const config: Webpack.Configuration = {
     plugins,
 
     output: {
-        filename: 'bundle.js',
+        filename: outputFilename,
         publicPath: '/',
         path: path.resolve('dist'),
     },
