@@ -9,14 +9,14 @@ interface HomeProps {
 
 interface HomeState {
     loaded: boolean;
-    imageGroups?: IImageGroup[];
+    imageGroups: IImageGroup[];
 }
 
 export default class HomeContainer extends React.Component<HomeProps, HomeState> {
 
     state: HomeState = {
         loaded: false,
-        imageGroups: undefined,
+        imageGroups: [],
     };
 
     async componentDidMount() {
@@ -42,7 +42,7 @@ export default class HomeContainer extends React.Component<HomeProps, HomeState>
             return <Loading />;
         }
 
-        if (!this.state.imageGroups) {
+        if (!this.state.imageGroups || this.state.imageGroups.length === 0) {
             return <p>Oops, something went wrong...</p>;
         }
 

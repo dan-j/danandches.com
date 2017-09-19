@@ -10,6 +10,7 @@ interface ImageGroupProps {
     containerWidth: number;
     preferredHeight: number;
     onImageSelected(selectedIndex: number): void;
+    onDimensionsCalculated(groupId: string): void;
 }
 
 interface ImageGroupState {
@@ -28,22 +29,24 @@ export default class ImageGroupContainer extends React.Component<ImageGroupProps
 
     state: ImageGroupState = {};
 
-    getImageDimensions = (containerWidth: number) => {
+    onDimensionsCalculated = () => this.props.onDimensionsCalculated(this.props.group.id);
+
+    calculateImageDimensions = (containerWidth: number) => {
         const { group: { images }, preferredHeight } = this.props;
-        return calculate(images, containerWidth, preferredHeight);
+        const imageDimensions = calculate(images, containerWidth, preferredHeight);
+
+        this.setState({
+            imageDimensions,
+        }, this.onDimensionsCalculated);
     };
 
     componentDidMount() {
-        this.setState({
-            imageDimensions: this.getImageDimensions(this.props.containerWidth),
-        });
+        this.calculateImageDimensions(this.props.containerWidth);
     }
 
     componentWillReceiveProps(nextProps: ImageGroupProps) {
         if (this.props.containerWidth !== nextProps.containerWidth) {
-            this.setState({
-                imageDimensions: this.getImageDimensions(nextProps.containerWidth),
-            });
+            this.calculateImageDimensions(nextProps.containerWidth);
         }
     }
 
