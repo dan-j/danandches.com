@@ -7,7 +7,9 @@ import * as Raven from 'raven-js';
 
 import './index.scss';
 
-Raven.config(process.env.RAVEN_URL!).install();
+if (process.env.NODE_ENV === 'production') {
+    Raven.config(process.env.RAVEN_URL!).install();
+}
 
 const render = (Component: typeof App) => {
     ReactDOM.render(
