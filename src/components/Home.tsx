@@ -126,7 +126,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                                 ) : (
                                     <Centered>
                                         <Card>Thanks for viewing our pictures! You can download them
-                                            here!</Card>
+                                            here (Coming soon)!</Card>
                                     </Centered>
                                 )}
                             </Container>
