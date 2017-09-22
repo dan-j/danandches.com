@@ -3,11 +3,12 @@ import Measure from 'react-measure';
 import { IImage, IImageGroup } from '../services/api';
 import ImageGroupContainer from './ImageGroupContainer';
 import Container from './styled/Container';
-import Loading from './styled/Loading/Bars';
 import InfiniteScroll from 'react-infinite-scroller';
 import * as loglevel from 'loglevel';
 import Card from './styled/Card';
 import { default as Centered } from './styled/Centered';
+import Welcome from './Welcome';
+import DownloadButton from './DownloadButton';
 
 const LightBox = require('react-images');
 
@@ -24,12 +25,28 @@ interface HomeState {
 }
 
 function extractImageUrls(imageGroups: IImageGroup[]) {
-    type SrcObj = { src: string };
+    type SrcObj = { src: string, srcset: string[] };
     const urls: SrcObj[] = [];
 
+    const defaultHeight = 600;
     imageGroups.forEach(
-        (g: IImageGroup) => g.images.forEach((i: IImage) =>
-            urls.push({ src: `${i.url}?h=600&fl=progressive` })));
+        (g: IImageGroup) => g.images.forEach((i: IImage) => {
+            // get required width for a height of 600px because only widths can be set in srcset
+            const srcset: string[] = [
+                `${i.url}?w=320&fl=progressive 320w`,
+                `${i.url}?w=750&fl=progressive 750w`,
+            ];
+
+            if ((i.details.image.width / i.details.image.height) > 1) {
+                // we have a landscape image, add an extra "large" width to the srcset
+                srcset.push(`${i.url}?w=950&fl=progressive 950w`);
+            }
+
+            urls.push({
+                src: `${i.url}?h=${defaultHeight}&fl=progressive`,
+                srcset,
+            });
+        }));
 
     return urls;
 }
@@ -86,13 +103,16 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                     onClickPrev={this.onImagePrevious}
                     onClickNext={this.onImageNext}
                     onClose={this.onLightBoxClose}
+                    backdropClosesModal={true}
                 />
+                <Welcome />
                 <Measure bounds={true}>
                     {({ measureRef, contentRect }) => {
                         let content;
+                        const page = this.state.page;
                         if (contentRect.bounds && contentRect.bounds.width) {
                             const width = contentRect.bounds.width;
-                            content = imageGroups.slice(0, this.state.page + 1)
+                            content = imageGroups.slice(0, page + 1)
                                 .map((g: IImageGroup, index: number) => (
                                     <ImageGroupContainer
                                         key={g.id}
@@ -104,29 +124,31 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                                     />
                                 ));
                         } else {
-                            content = <Loading />;
+                            content = <div />;
                         }
+                        const autoLoadThreshold = -50;
                         return (
                             <Container id="home"
                                        innerRef={measureRef}
-                                       style={{ height: '100%', overflow: 'auto' }}
+                                       style={{ overflow: 'auto', transition: 'height 1s' }}
                             >
                                 <InfiniteScroll
                                     pageStart={0}
                                     loadMore={this.loadMore}
                                     hasMore={this.shouldRenderMore()}
-                                    threshold={0}
+                                    threshold={autoLoadThreshold}
                                 >
                                     {content}
                                 </InfiniteScroll>
                                 {this.hasMore() ? (
-                                    <Centered>
+                                    <Centered style={{ minHeight: -autoLoadThreshold }}>
                                         <Card>Scroll to load more</Card>
                                     </Centered>
                                 ) : (
                                     <Centered>
-                                        <Card>Thanks for viewing our pictures! You can download them
-                                            here (Coming soon)!</Card>
+                                        <Card>Thanks for viewing our pictures! Here's another link
+                                            to download them!</Card>
+                                        <DownloadButton />
                                     </Centered>
                                 )}
                             </Container>

@@ -1,22 +1,11 @@
 @import "~normalize.css";
-@import url('https://fonts.googleapis.com/css?family=Khula:300,400');
-@import "./styles/variables.scss";
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400');
+
 @import "./styles/transitions.scss";
 
 body {
-  font-family: 'Khula', sans-serif;
-  background-color: $off-white;
-  font-weight: 100;
-}
-
-.container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 1080px;
-  margin: auto;
-  //height: 100%;
-  .item {
-    margin: 3px;
-  }
+  font-family: 'Poppins', sans-serif;
+  background-color: #FFF8F8; // colors.offWhite
+  font-weight: 300;
+  width: 100%;
 }

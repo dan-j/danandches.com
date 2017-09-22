@@ -2,14 +2,16 @@ import React from 'react';
 import { IImageGroup } from '../services/api';
 import { calculate, ImageDimensions } from '../util/image-layout';
 import ImageGroup from './ImageGroup';
-import styled from 'styled-components';
 import Loading from './styled/Loading/Bars';
+import { SubText } from './styled/SubText';
 
 interface ImageGroupProps {
     group: IImageGroup;
     containerWidth: number;
     preferredHeight: number;
+
     onImageSelected(selectedIndex: number): void;
+
     onDimensionsCalculated(groupId: string): void;
 }
 
@@ -17,12 +19,11 @@ interface ImageGroupState {
     imageDimensions?: ImageDimensions[][];
 }
 
-const SubText = styled.span`
-    font-size: 0.8em;
-    font-style: italic;
-    font-weight: 100;
-    padding-left: 1em;
+const RightSubText = SubText.extend`
     float: right;
+    &:after {
+        clear: both;
+    }
 `;
 
 export default class ImageGroupContainer extends React.Component<ImageGroupProps, ImageGroupState> {
@@ -64,7 +65,7 @@ export default class ImageGroupContainer extends React.Component<ImageGroupProps
 
         return (
             <section>
-                <h4>{group.title} <SubText>{group.images.length} Images</SubText></h4>
+                <h4>{group.title} <RightSubText>{group.images.length} Images</RightSubText></h4>
                 {content}
             </section>
         );

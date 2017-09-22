@@ -3,7 +3,7 @@ import { teal } from '../../styles/colors';
 
 const Card = styled.div`
   margin: 1em auto;
-  padding: 1.5em 3em;
+  padding: 0 3em;
   display: inline-block;
   text-align: center;
   color: ${teal};

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { blue, offWhite } from '../styles/colors';
 
 const StyledHeader = styled.header`
+    width: 100%;
     background-color: ${blue};
     color: ${offWhite};
     padding: 2em 0;

@@ -4,7 +4,6 @@ import CSSTransition from 'react-transition-group/CSSTransition';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import { BlurredImg, Img } from './styled/Img';
 import styled from 'styled-components';
-import Pulse from './styled/Loading/Pulse';
 import Overlay from './styled/Overlay';
 
 interface ImageProps {
@@ -15,6 +14,7 @@ interface ImageProps {
     height: number;
     width?: number;
     index: number;
+
     onImageSelected(selectedIndex: number): void;
 }
 
@@ -86,9 +86,7 @@ export default class Image extends React.Component<ImageProps, {}> {
                     {...imgProps}
                     onLoad={this.onThumbnailLoad}
                 />
-                <Overlay shouldFill={!this.state.thumbnailLoaded}>
-                    <Pulse />
-                </Overlay>
+                <Overlay shouldFill={!this.state.thumbnailLoaded} />
             </BlurredPicture>
         );
     }
