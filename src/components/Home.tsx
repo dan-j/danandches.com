@@ -95,7 +95,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         const { lightboxOpen, selectedIndex } = this.state;
 
         return (
-            <div>
+            <div style={{ height: '100%', marginBottom: -200 }}>
                 <LightBox
                     images={extractImageUrls(imageGroups)}
                     isOpen={lightboxOpen}

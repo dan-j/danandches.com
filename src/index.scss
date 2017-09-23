@@ -3,6 +3,14 @@
 
 @import "./styles/transitions.scss";
 
+html, body, #content {
+  height: 100%;
+}
+
+#content > div {
+  height: 100%;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   background-color: #FFF8F8; // colors.offWhite

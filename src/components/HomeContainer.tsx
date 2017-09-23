@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import Loading from './styled/Loading/Bars';
 import { getImageGroups, IImageGroup } from '../services/api';
 import Home from './Home';
@@ -11,6 +12,11 @@ interface HomeState {
     loaded: boolean;
     imageGroups: IImageGroup[];
 }
+
+const Div = styled.div`
+    min-height: 100%;
+    margin-bottom: -200px;
+`;
 
 export default class HomeContainer extends React.Component<HomeProps, HomeState> {
 
@@ -38,16 +44,17 @@ export default class HomeContainer extends React.Component<HomeProps, HomeState>
 
     render() {
 
+        let content;
         if (!this.state.loaded) {
-            return <Loading />;
-        }
-
-        if (!this.state.imageGroups || this.state.imageGroups.length === 0) {
-            return <p>Oops, something went wrong...</p>;
+            content = <Loading />;
+        } else if (!this.state.imageGroups || this.state.imageGroups.length === 0) {
+            content = <p>Oops, something went wrong...</p>;
+        } else {
+            content = <Home imageGroups={this.state.imageGroups} />;
         }
 
         return (
-            <Home imageGroups={this.state.imageGroups} />
+            <Div>{content}</Div>
         );
     }
 }

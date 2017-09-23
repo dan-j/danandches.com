@@ -5,6 +5,7 @@ import Header from './components/Header';
 import HomeContainer from './components/HomeContainer';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { muiTheme } from './styles/colors';
+import Footer from './components/Footer';
 
 export default class App extends React.Component<{}, {}> {
 
@@ -17,6 +18,7 @@ export default class App extends React.Component<{}, {}> {
                         <Route path="/">
                             <HomeContainer />
                         </Route>
+                        <Footer />
                     </div>
                 </BrowserRouter>
             </MuiThemeProvider>

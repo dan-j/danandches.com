@@ -6,7 +6,7 @@ const DownloadButton: React.SFC<{}> = () => (
     <Centered>
         <RaisedButton
             primary
-            style={{ margin: '0 auto' }}
+            style={{ margin: '0.5em auto' }}
             href="http://bit.ly/2waPTxq"
             label="Download .zip (6.2GB)"
         />
